@@ -14,19 +14,17 @@ So, if you depend on high accuracy renders for your customers, this is not for. 
 
 ### Under development ###
 
-[ ] Basic read from TXT or LAS files
-[ ] Raster of a photo to output JPG file
-[ ] Rastering from fixed view points (top, left, right, bottom)
+- [ ] Basic read from TXT or LAS files
+- [ ] Raster of a photo to output JPG file
+- [ ] Rastering from fixed view points (top, left, right, bottom)
 
-### Planned ###
+### In the radar, but not even planned yet ###
 
-[ ] Support other input
-[ ] Floating point outputs
-[ ] Use raster output to geolocate it (TIFF output). If added, will be optional because of GDAL.
-[ ] Applying additional transform
-[ ] Arbitrary camera placement
-[ ] Other raster formats
-[ ] Low memory footprint with tiled read and write
+- [ ] Support other input
+- [ ] Floating point outputs (e.g., adding elevation map)
+- [ ] Use raster output to geolocate it (TIFF output). If added, will be optional because of GDAL.
+- [ ] Applying arbitrary transform to camera
+- [ ] Low memory footprint with tiled read and write
 
 ## How to build ##
 
