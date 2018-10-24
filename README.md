@@ -55,7 +55,7 @@ By default an example application is built that only accepts 3 parameters:
 pointcloud_raster <cloud> <top|bottom|right|left> <max_size>
 ```
 
-for instances
+For instance:
 
 ```bash
 pointcloud_raster cloud.las top 1024
