@@ -42,7 +42,7 @@ make install
 To disable example app and/or test, use these options. For instance:
 
 ```bash
-cmake -D POINTCLOUD_SCREENSHOT_BUILD_APP=Off  -D POINTCLOUD_SCREENSHOT_BUILD_TESTS=Off ../pointcloud-raster
+cmake -D POINTCLOUD_RASTER_BUILD_APP=Off  -D POINTCLOUD_RASTER_BUILD_TESTS=Off ../pointcloud-raster
 ```
 
 ## How to use ##
