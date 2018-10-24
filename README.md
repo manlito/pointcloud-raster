@@ -31,18 +31,18 @@ So, if you depend on high accuracy renders for your customers, this is not for. 
 This program has no dependencies, beyond standard library, a modern CMake and compiler. Do:
 
 ```bash
-git clone 
-mkdir -p repo-build
-cd repo-build
-cmake  ../repo
-make
+git clone https://github.com/manlito/pointcloud-raster
+mkdir -p pointcloud-raster-build
+cd pointcloud-raster-build
+cmake  ../pointcloud-raster
+make -j4
 make install
 ```
 
 To disable example app and/or test, use these options. For instance:
 
 ```bash
-cmake -D POINTCLOUD_SCREENSHOT_BUILD_APP=Off  -D POINTCLOUD_SCREENSHOT_BUILD_TESTS=Off ../repo
+cmake -D POINTCLOUD_SCREENSHOT_BUILD_APP=Off  -D POINTCLOUD_SCREENSHOT_BUILD_TESTS=Off ../pointcloud-raster
 ```
 
 ## How to use ##
