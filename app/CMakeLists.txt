@@ -1,0 +1,8 @@
+
+add_executable(pointcloud_raster_app)
+target_sources(pointcloud_raster_app PRIVATE main)
+target_compile_features(pointcloud_raster_app PRIVATE cxx_std_11)
+
+install(TARGETS pointcloud_raster_app
+        DESTINATION "${CMAKE_INSTALL_PREFIX}/bin/")
+
