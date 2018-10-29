@@ -6,7 +6,7 @@ target_include_directories(PointcloudRaster
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/.>
 )
 target_sources(PointcloudRaster
-    PUBLIC
+    PRIVATE
         pointcloud_raster/raster/pointcloud_rasterizer.cpp
     )
 
@@ -19,7 +19,7 @@ if (POINTCLOUD_RASTER_LAS_SUPPORT)
     find_package(libLAS 1.8 REQUIRED)
     message(INFO "LibLAS build enabled: libLAS version ${libLAS_VERSION}")
     target_sources(PointcloudRaster
-        PUBLIC
+        PRIVATE
             pointcloud_raster/io/las/las_reader.cpp
     )
     target_link_libraries(PointcloudRaster
@@ -31,3 +31,4 @@ if (POINTCLOUD_RASTER_LAS_SUPPORT)
             ${libLAS_INCLUDE_DIRS}
     )
 endif ()
+
