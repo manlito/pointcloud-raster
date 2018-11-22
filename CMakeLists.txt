@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(pointcloud_raster VERSION 1.0.0 LANGUAGES CXX)
+project(pointcloud_raster VERSION 1.0.0 )
 
 # Options
 option(POINTCLOUD_RASTER_BUILD_APP "Build sample app to get images from a pointcloud" ON)

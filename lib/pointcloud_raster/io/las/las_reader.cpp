@@ -1,7 +1,6 @@
 #include <pointcloud_raster/io/las/las_reader.hpp>
 #include <fstream>
 #include <liblas/liblas.hpp>
-#include "las_reader.hpp"
 
 namespace pointcloud_raster::io
 {
@@ -11,6 +10,10 @@ struct LASWrapper
     std::ifstream input_stream;
     std::unique_ptr<liblas::Reader> las_reader;
 };
+
+LASReader::LASReader(const std::string filename) : filename_(filename)
+{
+}
 
 bool
 LASReader::Open()
@@ -54,6 +57,10 @@ LASReader::GetNextPoint()
         return std::nullopt;
     }
 
+}
+
+LASReader::~LASReader()
+{
 }
 
 }

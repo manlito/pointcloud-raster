@@ -13,7 +13,7 @@ struct LASWrapper;
 class LASReader
 {
 public:
-    LASReader(const std::string filename) : filename_(filename) {}
+    LASReader(const std::string filename);
 
     /**
      * Open file handle and try to create LAS object
@@ -28,6 +28,8 @@ public:
      */
     std::optional<Point>
     GetNextPoint();
+
+    ~LASReader();
 
 private:
     const std::string filename_;
