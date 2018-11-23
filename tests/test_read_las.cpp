@@ -1,20 +1,23 @@
 #include <iostream>
 #include <pointcloud_raster/io/las/las_reader.hpp>
+#include <gtest/gtest.h>
 
 using namespace pointcloud_raster;
 
-int main()
+TEST(IO, ReadLAS)
 {
-    std::cout << "Opening " << LAS_FILE_SIMPLE_INPUT << std::endl;
     io::LASReader lasReader(LAS_FILE_SIMPLE_INPUT);
+    std::vector<Point> points;
     if (lasReader.Open()) {
         while (auto nextPoint = lasReader.GetNextPoint()) {
-            std::cout << " Point [" << nextPoint->x << ", " << nextPoint->y << ", " << nextPoint->z << "]\n";
+            points.emplace_back(*nextPoint);
         }
-        std::cout << std::flush;
+        EXPECT_EQ(points.size(), 24);
+        EXPECT_EQ(points[5].x, 1);
+        EXPECT_EQ(points[15].y, 4);
+        EXPECT_EQ(points[19].z, 4);
     } else {
-        return 1;
+        FAIL() << "Can't open LAS file";
     }
-
-    return 0;
+    SUCCEED();
 }

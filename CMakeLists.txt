@@ -3,7 +3,7 @@ project(pointcloud_raster VERSION 1.0.0 )
 
 # Options
 option(POINTCLOUD_RASTER_BUILD_APP "Build sample app to get images from a pointcloud" ON)
-option(POINTCLOUD_RASTER_BUILD_TESTS "Build tests" ON)
+option(POINTCLOUD_RASTER_BUILD_TESTS "Build tests (requires GoogleTest)" ON)
 option(POINTCLOUD_RASTER_LAS_SUPPORT "Enable build with LibLAS for LAS/LAZ files" ON)
 set(POINTCLOUD_RASTER_TEST_OUTPUT "." CACHE STRING "Folder to put test generated files")
 
@@ -20,6 +20,7 @@ add_subdirectory(app)
 # Testing
 if (POINTCLOUD_RASTER_BUILD_TESTS)
     enable_testing()
+    find_package(GTest REQUIRED)
     add_subdirectory(tests)
 endif()
 
