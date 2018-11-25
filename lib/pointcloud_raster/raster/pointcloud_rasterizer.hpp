@@ -25,10 +25,7 @@ public:
     };
 
     PointcloudRasterizer(OutputOptions output_options = OutputOptions())
-        : output_options_(output_options)
-    {
-        raster_image_ = ImageSize(output_options.raster_size);
-    }
+        : output_options_(output_options) {}
 
     void
     SetOutputOptions(const OutputOptions &output_options) { output_options_ = output_options; }

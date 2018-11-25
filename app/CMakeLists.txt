@@ -1,6 +1,7 @@
 
 add_executable(pointcloud_raster_app)
 target_sources(pointcloud_raster_app PRIVATE main)
+target_link_libraries(pointcloud_raster_app PointcloudRaster::PointcloudRaster)
 target_compile_features(pointcloud_raster_app PRIVATE cxx_std_11)
 
 install(TARGETS pointcloud_raster_app

@@ -15,14 +15,19 @@ PointcloudRasterizer::AddToRasterFromLASFile(const std::string &pointcloud_file)
 
     // Compute transform scale
     double scale = 1.0;
+    ImageSize imageSize;
     if (output_options_.rasterViewPointPreset == OutputOptions::RasterViewPointPreset::TOP)
     {
         // Use XY plane
         scale = std::min(static_cast<double>(output_options_.raster_size.width) / boundingBox.width,
                          static_cast<double>(output_options_.raster_size.height) / boundingBox.height);
+        imageSize.width = boundingBox.width * scale;
+        imageSize.height = boundingBox.height * scale;
     }
     else
         throw std::runtime_error("Not implemented");
+
+    raster_image_ = Image(imageSize);
 
     while (auto nextPoint = lasReader.GetNextPoint())
     {
