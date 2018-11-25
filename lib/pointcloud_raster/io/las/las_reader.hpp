@@ -4,6 +4,7 @@
 #include <optional>
 #include <memory>
 #include <pointcloud_raster/core/point.hpp>
+#include <pointcloud_raster/core/bounding_box.hpp>
 
 namespace pointcloud_raster::io
 {
@@ -21,6 +22,13 @@ public:
      */
     bool
     Open();
+
+    /**
+     * Read bounding box data from LAS header
+     * @return BoundingBox<int> Rounded 3D bounding box
+     */
+    BoundingBox3D<int>
+    GetBoundingBox() const;
 
     /**
      * Reads a point from las file

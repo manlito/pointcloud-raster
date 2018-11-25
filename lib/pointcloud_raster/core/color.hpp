@@ -11,7 +11,7 @@ struct Color
     unsigned char alpha{0};
     Color() {}
     explicit Color(unsigned char red, unsigned char green, unsigned char blue)
-        : red(red), green(green), blue(blue), alpha(0) {}
+        : red(red), green(green), blue(blue), alpha(255) {}
     explicit Color(unsigned char red, unsigned char green, unsigned char blue, unsigned char alpha)
         : red(red), green(green), blue(blue), alpha(alpha) {}
 
