@@ -10,7 +10,7 @@ using namespace pointcloud_raster;
  * @param filename PNG image path
  * @return A valid image if it could be read
  */
-std::optional<Image>
+std::optional<RGBAImage>
 ReadImageFromFile(const std::string &filename)
 {
     /**
@@ -45,7 +45,7 @@ ReadImageFromFile(const std::string &filename)
     std::vector<png_bytep> row_pointers;
     row_pointers.resize(height);
 
-    Image image(ImageSize(width, height));
+    RGBAImage image(ImageSize(width, height));
     auto imagePtr = image.Prt();
 
     for (int y = 0; y < height; y++)
@@ -71,12 +71,12 @@ TEST(Core, ImageWritePNG)
 
     // Create cross image
     {
-        Image image(ImageSize(IMAGE_WIDTH, IMAGE_WIDTH));
+        RGBAImage image(ImageSize(IMAGE_WIDTH, IMAGE_WIDTH));
         for (int row = 0; row < IMAGE_WIDTH; row++)
             for (int col = 0; col < IMAGE_WIDTH; col++)
             {
                 if (row == col || (IMAGE_WIDTH - row) == col)
-                    image.Set(col, row, color);
+                    image.SetColor(col, row, color);
             }
         image.SaveAsPNG(outputImage, 0);
     }
@@ -92,9 +92,9 @@ TEST(Core, ImageWritePNG)
                 for (int col = 0; col < IMAGE_WIDTH; col++)
                 {
                     if (row == col || (IMAGE_WIDTH - row) == col)
-                        EXPECT_TRUE(savedImage->Get(col, row) == color);
+                        EXPECT_TRUE(savedImage->GetColor(col, row) == color);
                     else
-                        EXPECT_TRUE(savedImage->Get(col, row) == defaultColor);
+                        EXPECT_TRUE(savedImage->GetColor(col, row) == defaultColor);
                 }
         }
         else

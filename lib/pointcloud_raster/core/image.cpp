@@ -9,7 +9,7 @@ namespace pointcloud_raster
 
 #ifdef POINTCLOUD_RASTER_PNG_SUPPORT
 bool
-Image::SaveAsPNG(const std::string &filename, int compressionLevel) const
+RGBAImage::SaveAsPNG(const std::string &filename, int compressionLevel) const
 {
     FILE *fp = std::fopen(filename.c_str(), "wb");
 

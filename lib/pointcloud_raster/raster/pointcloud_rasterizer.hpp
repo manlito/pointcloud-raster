@@ -33,7 +33,7 @@ public:
     bool
     AddToRasterFromLASFile(const std::string &pointcloud_file);
 
-    const Image&
+    const RGBAImage&
     GetRasterImage() const
     {
         return raster_image_;
@@ -41,7 +41,7 @@ public:
 
 private:
     OutputOptions output_options_;
-    Image raster_image_;
+    RGBAImage raster_image_;
 };
 
 }

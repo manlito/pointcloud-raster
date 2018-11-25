@@ -27,16 +27,25 @@ PointcloudRasterizer::AddToRasterFromLASFile(const std::string &pointcloud_file)
     else
         throw std::runtime_error("Not implemented");
 
-    raster_image_ = Image(imageSize);
+    raster_image_ = RGBAImage(imageSize);
+    DepthImage depth_image(imageSize, -std::numeric_limits<DepthImage::Type>::max());
 
     while (auto nextPoint = lasReader.GetNextPoint())
     {
         // Transform for LAS to pixel coordinates
         if (output_options_.rasterViewPointPreset == OutputOptions::RasterViewPointPreset::TOP)
         {
+            // When render, give priority based on distance to camera
             int x = std::max(0, std::min(raster_image_.Width() - 1, static_cast<int>((nextPoint->x - boundingBox.x) * scale)));
-            int y = std::max(0, std::min(raster_image_.Height() - 1, static_cast<int>((nextPoint->y - boundingBox.y) * scale)));
-            raster_image_.Set(x, raster_image_.Height() - y, nextPoint->color);
+            int y = raster_image_.Height() - std::max(0, std::min(raster_image_.Height() - 1, static_cast<int>((nextPoint->y - boundingBox.y) * scale)));
+
+            // Draw if depth will result smaller
+            if (auto currentZ = depth_image.Get(x, y);
+                nextPoint->z > currentZ)
+            {
+                depth_image.Set(x, y, static_cast<float>(nextPoint->z));
+                raster_image_.SetColor(x, y, nextPoint->color);
+            }
         }
         else
             throw std::runtime_error("Not implemented");
