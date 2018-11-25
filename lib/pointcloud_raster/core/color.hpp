@@ -9,21 +9,25 @@ struct Color
     unsigned char green{0};
     unsigned char blue{0};
     unsigned char alpha{0};
+
     Color() {}
+
     explicit Color(unsigned char red, unsigned char green, unsigned char blue)
         : red(red), green(green), blue(blue), alpha(255) {}
+
     explicit Color(unsigned char red, unsigned char green, unsigned char blue, unsigned char alpha)
         : red(red), green(green), blue(blue), alpha(alpha) {}
 
     bool
     operator==(const Color &color) const
     {
-        return color.green == green && color.red == red && color.blue == blue && color.alpha == alpha;
+        return color.green==green && color.red==red && color.blue==blue && color.alpha==alpha;
     }
+
     bool
     operator!=(const Color &color) const
     {
-        return !(color == *this);
+        return !(color==*this);
     }
 };
 

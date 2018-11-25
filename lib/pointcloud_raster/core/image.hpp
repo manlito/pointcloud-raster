@@ -42,6 +42,7 @@ public:
     {
         return data_[(y*size_.width + x)*CHANNELS];
     }
+
     int
     Width() const
     {
