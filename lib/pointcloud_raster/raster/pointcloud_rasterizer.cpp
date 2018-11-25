@@ -1,4 +1,5 @@
 #include <pointcloud_raster/raster/pointcloud_rasterizer.hpp>
+#include <pointcloud_raster/math/transform.hpp>
 #include <pointcloud_raster/io/las/las_reader.hpp>
 
 namespace pointcloud_raster::raster
@@ -16,7 +17,7 @@ PointcloudRasterizer::AddToRasterFromLASFile(const std::string &pointcloud_file)
     // Compute transform scale
     double scale = 1.0;
     ImageSize imageSize;
-    if (output_options_.rasterViewPointPreset == OutputOptions::RasterViewPointPreset::TOP)
+    if (output_options_.rasterViewPointPreset == ViewPointPreset::TOP)
     {
         // Use XY plane
         scale = std::min(static_cast<double>(output_options_.raster_size.width) / boundingBox.width,
@@ -33,7 +34,7 @@ PointcloudRasterizer::AddToRasterFromLASFile(const std::string &pointcloud_file)
     while (auto nextPoint = lasReader.GetNextPoint())
     {
         // Transform for LAS to pixel coordinates
-        if (output_options_.rasterViewPointPreset == OutputOptions::RasterViewPointPreset::TOP)
+        if (output_options_.rasterViewPointPreset == ViewPointPreset::TOP)
         {
             // When render, give priority based on distance to camera
             int x = std::max(0, std::min(raster_image_.Width() - 1, static_cast<int>((nextPoint->x - boundingBox.x) * scale)));

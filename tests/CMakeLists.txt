@@ -9,6 +9,12 @@ set(LIB_DEFINITIONS
     TESTS_OUTPUT_DIR="${POINTCLOUD_RASTER_TEST_OUTPUT}"
 )
 
+# Math
+add_executable(TestMath test_math.cpp)
+target_link_libraries(TestMath PRIVATE ${LIB_LINK_LIBRARIES})
+target_compile_features(TestMath PRIVATE cxx_std_11)
+gtest_discover_tests(TestMath)
+
 # LAS Read
 add_executable(TestReadLAS test_io_las.cpp)
 target_link_libraries(TestReadLAS PRIVATE ${LIB_LINK_LIBRARIES})
