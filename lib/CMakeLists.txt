@@ -8,12 +8,28 @@ target_include_directories(pointcloud_raster
 target_sources(pointcloud_raster
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/pointcloud_raster/raster/pointcloud_rasterizer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/pointcloud_raster/core/image.cpp
     )
 
 target_compile_features(pointcloud_raster
-    PRIVATE
+    PUBLIC
         cxx_std_17
 )
+
+if (POINTCLOUD_RASTER_PNG_SUPPORT)
+    target_compile_definitions(pointcloud_raster
+        PUBLIC
+            POINTCLOUD_RASTER_PNG_SUPPORT
+    )
+    target_link_libraries(pointcloud_raster
+        PUBLIC
+            PNG::PNG
+    )
+    target_include_directories(pointcloud_raster
+        PRIVATE
+            ${PNG_INCLUDE_DIRS}
+    )
+endif()
 
 if (POINTCLOUD_RASTER_LAS_SUPPORT)
     find_package(libLAS 1.8 REQUIRED)
