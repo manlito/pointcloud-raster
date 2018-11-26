@@ -9,6 +9,7 @@ target_sources(pointcloud_raster
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/pointcloud_raster/raster/pointcloud_rasterizer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/pointcloud_raster/core/image.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/pointcloud_raster/math/transform.cpp
     )
 
 target_compile_features(pointcloud_raster

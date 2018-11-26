@@ -6,10 +6,21 @@
 namespace pointcloud_raster::math
 {
 
-template <typename DataType, int ROWS, int COLS>
+template <typename DataType, size_t ROWS, size_t COLS>
 struct Matrix
 {
+    typedef DataType type;
+    constexpr static size_t size = ROWS * COLS;
+
     Matrix() {}
+
+    template <typename ...T>
+    Matrix(T ...ts) : data{ts...} {}
+
+    Matrix(std::initializer_list<DataType> list)
+    {
+        std::memcpy(data, list.begin(), ROWS*COLS*sizeof(DataType));
+    }
 
     Matrix(const std::vector<DataType> &copyFromdata)
     {
@@ -17,7 +28,7 @@ struct Matrix
     }
 
     DataType const&
-    operator[](int index) const
+    operator[](size_t index) const
     {
         if constexpr (ROWS == 1)
             return data[index];
@@ -25,8 +36,8 @@ struct Matrix
             return data[index / COLS][index % COLS];
     }
 
-    DataType
-    operator[](int index)
+    DataType&
+    operator[](size_t index)
     {
         if constexpr (ROWS == 1)
             return data[index];
@@ -34,15 +45,24 @@ struct Matrix
             return data[index / COLS][index % COLS];
     }
 
-    template <int ROWS_RIGHT, int COLS_RIGHT>
+    template <std::size_t INDEX>
+    DataType get() const
+    {
+        if constexpr (ROWS == 1)
+            return data[INDEX];
+        else
+            return data[INDEX / COLS][INDEX % COLS];
+    }
+
+    template <size_t ROWS_RIGHT, size_t COLS_RIGHT>
     Matrix<DataType, ROWS, COLS_RIGHT>
-    operator*(const Matrix<DataType, ROWS_RIGHT, COLS_RIGHT> &matrix)
+    operator*(const Matrix<DataType, ROWS_RIGHT, COLS_RIGHT> &matrix) const
     {
         Matrix<DataType, ROWS, COLS_RIGHT> result;
-        for (int row = 0; row < ROWS; row++)
-            for (int col = 0; col < COLS_RIGHT; col++)
+        for (size_t row = 0; row < ROWS; row++)
+            for (size_t col = 0; col < COLS_RIGHT; col++)
             {
-                for (int cell = 0; cell < COLS; cell++)
+                for (size_t cell = 0; cell < COLS; cell++)
                     result.data[row][col] += data[row][cell] * matrix.data[cell][col];
             }
         return result;
@@ -51,5 +71,16 @@ struct Matrix
     DataType data[ROWS][COLS] {0};
 };
 
+}
+
+#define MATRIX_STRUCTURE_BINDING_SPECIALIZATION(MatrixType) \
+namespace std { \
+template<> \
+struct tuple_size<MatrixType> \
+    : std::integral_constant<std::size_t, MatrixType::size> {};\
+template<std::size_t N> \
+struct tuple_element<N, MatrixType> { \
+    using type = MatrixType::type; \
+}; \
 }
 

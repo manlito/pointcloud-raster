@@ -30,11 +30,11 @@ LASReader::Open()
     return false;
 }
 
-BoundingBox3D<int>
+BoundingBox3D<double>
 LASReader::GetBoundingBox() const
 {
     const auto &headers =las_wrapper_->las_reader->GetHeader();
-    BoundingBox3D<int> boundingBox3D;
+    BoundingBox3D<double> boundingBox3D;
     boundingBox3D.x = std::floor(headers.GetMinX());
     boundingBox3D.y = std::floor(headers.GetMinY());
     boundingBox3D.z = std::floor(headers.GetMinZ());

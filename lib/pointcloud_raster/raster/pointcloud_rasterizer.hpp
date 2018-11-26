@@ -18,7 +18,7 @@ public:
 
         ImageSize raster_size{1024, 1024};
         ImageFormat format{ImageFormat::JPG};
-        ViewPointPreset rasterViewPointPreset{ViewPointPreset ::TOP};
+        ViewPointPreset rasterViewPointPreset{ViewPointPreset::TOP};
         int pixel_size{2};
         Color background_color{240, 240, 240};
         OutputOptions() {}

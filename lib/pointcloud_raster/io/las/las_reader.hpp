@@ -25,9 +25,9 @@ public:
 
     /**
      * Read bounding box data from LAS header
-     * @return BoundingBox<int> Rounded 3D bounding box
+     * @return BoundingBox<double> Rounded 3D bounding box
      */
-    BoundingBox3D<int>
+    BoundingBox3D<double>
     GetBoundingBox() const;
 
     /**

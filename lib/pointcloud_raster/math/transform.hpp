@@ -3,21 +3,21 @@
 #include <pointcloud_raster/math/types.hpp>
 #include <vector>
 
-namespace pointcloud_raster
+namespace pointcloud_raster::math
 {
 
 class RotationTransform
 {
 public:
 
-    std::tuple<double, double, double>
-    transformPoint(double x, double y, double z);
+    void
+    SetFromViewPoint(ViewPointPreset viewPointPreset);
 
-    bool
-    setFromViewPoint(ViewPointPreset viewPointPreset);
+    void
+    SetFromRotationMatrix(const math::RotationMatrix &rotationMatrix);
 
-    bool
-    setFromRotationMatrix(const math::RotationMatrix &rotationMatrix);
+    Vector3D
+    TransformPoint(const Vector3D &point);
 
 private:
     math::RotationMatrix rotationMatrix_;

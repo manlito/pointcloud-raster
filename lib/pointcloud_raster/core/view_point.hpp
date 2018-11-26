@@ -3,7 +3,7 @@
 namespace pointcloud_raster
 {
 
-enum class ViewPointPreset { NONE, TOP, BOTTOM, RIGHT, LEFT };
+enum class ViewPointPreset { TOP, FRONT, LEFT, BACK, SIDE, BOTTOM, FRONT_ISOMETRIC, BACK_ISOMETRIC};
 
 }
 
