@@ -73,7 +73,7 @@ struct Matrix
 
 }
 
-#define MATRIX_STRUCTURE_BINDING_SPECIALIZATION(MatrixType) \
+#define MATRIX_STRUCTURED_BINDING_SPECIALIZATION(MatrixType) \
 namespace std { \
 template<> \
 struct tuple_size<MatrixType> \

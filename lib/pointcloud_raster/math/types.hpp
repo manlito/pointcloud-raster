@@ -10,5 +10,5 @@ typedef Matrix<double, 3, 1> Vector3D;
 
 }
 
-MATRIX_STRUCTURE_BINDING_SPECIALIZATION(pointcloud_raster::math::RotationMatrix)
-MATRIX_STRUCTURE_BINDING_SPECIALIZATION(pointcloud_raster::math::Vector3D)
+MATRIX_STRUCTURED_BINDING_SPECIALIZATION(pointcloud_raster::math::RotationMatrix)
+MATRIX_STRUCTURED_BINDING_SPECIALIZATION(pointcloud_raster::math::Vector3D)

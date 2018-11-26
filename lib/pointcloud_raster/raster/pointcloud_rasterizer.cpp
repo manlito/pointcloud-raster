@@ -21,7 +21,7 @@ PointcloudRasterizer::AddToRasterFromLASFile(const std::string &pointcloud_file)
 
     if (output_options_.rasterViewPointPreset != ViewPointPreset::TOP)
     {
-        // Recompute bounding box
+        // Recompute bounding box, using all points in the cloud
         double minX = std::numeric_limits<double>::max();
         double minY = std::numeric_limits<double>::max();
         double minZ = std::numeric_limits<double>::max();
@@ -49,7 +49,7 @@ PointcloudRasterizer::AddToRasterFromLASFile(const std::string &pointcloud_file)
         }
         else
         {
-            // Otherwise, only compute using bounding box
+            // Otherwise, only compute from initial bounding box
             std::vector<math::Vector3D> boundingBoxCuboidCorners{
                 math::Vector3D{boundingBox.x, boundingBox.y, boundingBox.z},
                 math::Vector3D{boundingBox.x, boundingBox.y, boundingBox.z + boundingBox.depth},
