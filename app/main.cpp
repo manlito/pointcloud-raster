@@ -6,23 +6,48 @@ main(int argc, char *argv[])
 {
     if (argc != 3)
     {
-        std::cout << "Usage: ./pointcloud_raster_app pointcloud.las output_image.png" << std::endl;
+        std::cout << "Usage: ./pointcloud_raster_app pointcloud.las output_image_prefix" << std::endl;
         return EXIT_FAILURE;
     }
     const std::string pointcloudFile(argv[1]);
     std::cout << "Rendering pointcloud" << pointcloudFile << std::endl;
 
+    const std::vector<std::pair<std::string, pointcloud_raster::ViewPointPreset>> viewPresets {
+        {"top", pointcloud_raster::ViewPointPreset::TOP},
+        {"side", pointcloud_raster::ViewPointPreset::SIDE},
+        {"front", pointcloud_raster::ViewPointPreset::FRONT},
+        {"perspective", pointcloud_raster::ViewPointPreset::FRONT_ISOMETRIC}
+    };
+
     pointcloud_raster::raster::PointcloudRasterizer rasterizer;
+    for (const auto &[suffix, viewProfile] : viewPresets)
+    {
+        pointcloud_raster::raster::PointcloudRasterizer::RasterOptions rasterOptions;
+        rasterOptions.rasterViewPointPreset = viewProfile;
+        rasterizer.AddOutputRaster(rasterOptions);
+    }
     rasterizer.AddToRasterFromLASFile(pointcloudFile);
-    const auto &image = rasterizer.GetRasterImage();
+
+    if (viewPresets.size() != rasterizer.GetRasterImages().size())
+    {
+        std::cerr << "Error: Number of resulting rasters is not the same as given input configuration."
+                  << std::endl;
+        return EXIT_FAILURE;
+    }
+
 
 #ifdef POINTCLOUD_RASTER_PNG_SUPPORT
-    const std::string pngFile(argv[2]);
-    std::cout << "Saving to image " << pngFile << std::endl;
-    if (image.SaveAsPNG(pngFile))
-        std::cout << "Saved image!" << std::endl;
-    else
-        std::cerr << "Error saving image" << std::endl;
+    {
+        auto rasterImageIterator = rasterizer.GetRasterImages().begin();
+        for (const auto &[suffix, viewProfile] : viewPresets)
+        {
+            const std::string pngFile = std::string(argv[2]) + "_" + suffix + ".png";
+            std::cout << "Saving image " << pngFile << std::endl;
+            if (!rasterImageIterator->SaveAsPNG(pngFile))
+                std::cerr << "Error saving image" << std::endl;
+            rasterImageIterator++;
+        }
+    }
 #else
     std::cerr << "Library built without PNG support. Ignoring " << pngFile << std::endl;
 #endif

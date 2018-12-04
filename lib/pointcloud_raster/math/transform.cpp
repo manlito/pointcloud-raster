@@ -88,7 +88,7 @@ RotationTransform::SetFromRotationMatrix(const math::RotationMatrix &rotationMat
 }
 
 Vector3D
-RotationTransform::TransformPoint(const Vector3D &point)
+RotationTransform::TransformPoint(const Vector3D &point) const
 {
     return rotationMatrix_ * point;
 }

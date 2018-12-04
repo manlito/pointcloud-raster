@@ -13,35 +13,35 @@ namespace pointcloud_raster::raster
 class PointcloudRasterizer
 {
 public:
-    struct OutputOptions
+    struct RasterOptions
     {
-
-        ImageSize raster_size{1024, 1024};
+        ImageSize rasterSize{1024, 1024};
         ImageFormat format{ImageFormat::JPG};
         ViewPointPreset rasterViewPointPreset{ViewPointPreset::TOP};
-        int pixel_size{2};
-        Color background_color{240, 240, 240};
-        OutputOptions() {}
+        Color backgroundColor{0, 0, 0, 0};
+        RasterOptions() {}
     };
 
-    PointcloudRasterizer(OutputOptions output_options = OutputOptions())
-        : output_options_(output_options) {}
+    PointcloudRasterizer() {}
 
     void
-    SetOutputOptions(const OutputOptions &output_options) { output_options_ = output_options; }
+    AddOutputRaster(const RasterOptions &outputOptions)
+    {
+        outputRasters_.push_back(outputOptions);
+    }
 
     bool
     AddToRasterFromLASFile(const std::string &pointcloud_file);
 
-    const RGBAImage&
-    GetRasterImage() const
+    const std::vector<RGBAImage>&
+    GetRasterImages() const
     {
-        return raster_image_;
+        return rasterImages_;
     }
 
 private:
-    OutputOptions output_options_;
-    RGBAImage raster_image_;
+    std::vector<RasterOptions> outputRasters_;
+    std::vector<RGBAImage> rasterImages_;
 };
 
 }

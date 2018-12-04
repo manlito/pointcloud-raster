@@ -17,7 +17,7 @@ public:
     SetFromRotationMatrix(const math::RotationMatrix &rotationMatrix);
 
     Vector3D
-    TransformPoint(const Vector3D &point);
+    TransformPoint(const Vector3D &point) const;
 
 private:
     math::RotationMatrix rotationMatrix_;

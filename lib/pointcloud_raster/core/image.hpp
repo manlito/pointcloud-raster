@@ -20,13 +20,27 @@ public:
     Image() : size_(ImageSize(0, 0)) {}
 
     Image(ImageSize size) : size_(size)
-        {
-            data_.resize(size.width*size.height*CHANNELS);
-            std::fill(data_.begin(), data_.end(), 0);
-        }
+    {
+        data_.resize(size.width*size.height*CHANNELS);
+    }
 
     Image(ImageSize size, DataType defaultValue) : size_(size)
     {
+        data_.resize(size.width*size.height*CHANNELS);
+        std::fill(data_.begin(), data_.end(), defaultValue);
+    }
+
+    void
+    resize(ImageSize size)
+    {
+        size_ = size;
+        data_.resize(size.width*size.height*CHANNELS);
+    }
+
+    void
+    resize(ImageSize size, DataType defaultValue)
+    {
+        size_ = size;
         data_.resize(size.width*size.height*CHANNELS);
         std::fill(data_.begin(), data_.end(), defaultValue);
     }
