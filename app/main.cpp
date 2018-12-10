@@ -26,11 +26,17 @@ main(int argc, char *argv[])
         rasterOptions.rasterViewPointPreset = viewProfile;
         rasterizer.AddOutputRaster(rasterOptions);
     }
-    rasterizer.AddToRasterFromLASFile(pointcloudFile);
+    rasterizer.AddLASFile(pointcloudFile);
+    if (!rasterizer.Rasterize())
+    {
+        std::cerr << "Rasterization failed" << std::endl;
+        return EXIT_FAILURE;
+    }
 
     if (viewPresets.size() != rasterizer.GetRasterImages().size())
     {
-        std::cerr << "Error: Number of resulting rasters is not the same as given input configuration."
+        std::cerr << "Error: Number of resulting rasters is not the same as given input configurations."
+                  << "Given " << viewPresets.size() << " vs generated " << rasterizer.GetRasterImages().size()
                   << std::endl;
         return EXIT_FAILURE;
     }
@@ -49,7 +55,7 @@ main(int argc, char *argv[])
         }
     }
 #else
-    std::cerr << "Library built without PNG support. Ignoring " << pngFile << std::endl;
+    std::cerr << "Library built without PNG support. No outputs bill be saved." << std::endl;
 #endif
 
     return EXIT_SUCCESS;

@@ -22,6 +22,8 @@ public:
         RasterOptions() {}
     };
 
+    enum class InputType {LAS, TXT};
+
     PointcloudRasterizer() {}
 
     void
@@ -30,8 +32,20 @@ public:
         outputRasters_.push_back(outputOptions);
     }
 
+    void
+    AddTXTFile(const std::string &inputFile)
+    {
+        inputFiles_.emplace_back(std::make_pair(InputType::TXT, inputFile));
+    }
+
+    void
+    AddLASFile(const std::string &inputFile)
+    {
+        inputFiles_.emplace_back(std::make_pair(InputType::LAS, inputFile));
+    }
+
     bool
-    AddToRasterFromLASFile(const std::string &pointcloud_file);
+    Rasterize();
 
     const std::vector<RGBAImage>&
     GetRasterImages() const
@@ -42,6 +56,7 @@ public:
 private:
     std::vector<RasterOptions> outputRasters_;
     std::vector<RGBAImage> rasterImages_;
+    std::vector<std::pair<InputType, std::string>> inputFiles_;
 };
 
 }
