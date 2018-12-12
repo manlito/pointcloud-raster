@@ -5,15 +5,15 @@
 #include <memory>
 #include <pointcloud_raster/core/point.hpp>
 #include <pointcloud_raster/core/bounding_box.hpp>
-#include <pointcloud_raster/io/pointcloud_reader.hpp>
+#include <pointcloud_raster/io/pointcloud_provider.hpp>
 
 namespace pointcloud_raster::io
 {
 
-class TXTReader : public PointcloudReader
+class TXTReader : public PointcloudProvider
 {
 public:
-    TXTReader(const std::string filename);
+    TXTReader(const std::string filename, int skipLines = 0);
 
     /**
      * Open file handle and try to create LAS object
@@ -40,7 +40,7 @@ public:
 
 private:
     const std::string filename_;
-
+    const int skipLines_;
 };
 
 }

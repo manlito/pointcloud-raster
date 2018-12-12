@@ -53,15 +53,10 @@ PointcloudRasterizer::Rasterize()
             raster.outputRaster.rasterViewPointPreset);
     }
 
-    for (const auto &[inputType, inputFile] : inputFiles_)
+    for (auto &inputProvider : inputProviders_)
     {
-        std::unique_ptr<io::PointcloudReader> reader;
-        if (inputType == InputType::LAS)
-            reader.reset(new io::LASReader(inputFile));
-        else
-            reader.reset(new io::TXTReader(inputFile));
-
-        if (!reader->Open())
+        // Open all pointcloud providers (readers)
+        if (!inputProvider->Open())
             return false;
 
         // Compute a bounding box and assign a rotation transform for each output config
@@ -72,7 +67,7 @@ PointcloudRasterizer::Rasterize()
             auto &boundingBox = raster.boundingBox;
 
             // Default, bounding box same as the LAS header
-            boundingBox = reader->GetBoundingBox();
+            boundingBox = inputProvider->GetBoundingBox();
 
             if (outputRaster.rasterViewPointPreset != ViewPointPreset::TOP)
             {
@@ -87,11 +82,8 @@ PointcloudRasterizer::Rasterize()
                     outputRaster.rasterViewPointPreset == ViewPointPreset::BACK_ISOMETRIC)
                 {
                     // Arbitrary transforms need bounding box computation
-                    io::LASReader lasReaderBoundingBox(inputFile);
-                    if (!lasReaderBoundingBox.Open())
-                        return false;
 
-                    while (auto nextPoint = lasReaderBoundingBox.GetNextPoint())
+                    while (auto nextPoint = inputProvider->GetNextPoint())
                     {
                         const auto &transformedPoint = rotationTransform.TransformPoint(math::Vector3D(nextPoint->x, nextPoint->y, nextPoint->z));
                         minX = std::min(minX, transformedPoint[0]);
@@ -161,18 +153,12 @@ PointcloudRasterizer::Rasterize()
     }
 
     // Render
-    for (const auto &[inputType, inputFile] : inputFiles_)
+    for (const auto &inputProvider : inputProviders_)
     {
-        std::unique_ptr<io::PointcloudReader> reader;
-        if (inputType==InputType::LAS)
-            reader.reset(new io::LASReader(inputFile));
-        else
-            reader.reset(new io::TXTReader(inputFile));
-
-        if (!reader->Open())
+        if (!inputProvider->SeekToFirstPoint())
             return false;
 
-        while (auto nextPoint = reader->GetNextPoint())
+        while (auto nextPoint = inputProvider->GetNextPoint())
         {
             for (auto &raster : rasters)
             {

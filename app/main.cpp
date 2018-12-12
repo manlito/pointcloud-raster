@@ -1,5 +1,6 @@
 #include <iostream>
 #include <pointcloud_raster/raster/pointcloud_rasterizer.hpp>
+#include <pointcloud_raster/io/las/las_reader.hpp>
 
 int
 main(int argc, char *argv[])
@@ -26,7 +27,7 @@ main(int argc, char *argv[])
         rasterOptions.rasterViewPointPreset = viewProfile;
         rasterizer.AddOutputRaster(rasterOptions);
     }
-    rasterizer.AddLASFile(pointcloudFile);
+    rasterizer.AddInputProvider(new pointcloud_raster::io::LASReader(pointcloudFile));
     if (!rasterizer.Rasterize())
     {
         std::cerr << "Rasterization failed" << std::endl;

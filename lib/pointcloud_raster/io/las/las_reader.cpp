@@ -30,6 +30,12 @@ LASReader::Open()
     return false;
 }
 
+bool
+LASReader::SeekToFirstPoint()
+{
+    return las_wrapper_->las_reader->Seek(0);
+}
+
 BoundingBox3D<double>
 LASReader::GetBoundingBox() const
 {

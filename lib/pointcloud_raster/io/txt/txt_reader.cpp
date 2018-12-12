@@ -4,7 +4,8 @@
 namespace pointcloud_raster::io
 {
 
-TXTReader::TXTReader(const std::string filename) : filename_(filename)
+TXTReader::TXTReader(const std::string filename, int skipLines)
+    : filename_(filename), skipLines_(skipLines)
 {
 }
 

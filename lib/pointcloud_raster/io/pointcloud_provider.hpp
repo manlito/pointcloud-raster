@@ -9,11 +9,11 @@
 namespace pointcloud_raster::io
 {
 
-class PointcloudReader
+class PointcloudProvider
 {
 public:
-    PointcloudReader() {}
-    PointcloudReader(const std::string filename) : filename_(filename) {}
+    PointcloudProvider() {}
+    PointcloudProvider(const std::string filename) : filename_(filename) {}
 
     /**
      * Open file handle and try to create a reader
@@ -21,6 +21,15 @@ public:
      */
     virtual bool
     Open() = 0;
+
+    /**
+     * Some transformations require recomputation of bounding box. For this,
+     * we may want to read again all points. Calling this method should cause
+     * GetNextPoint to return to the first point of the pointcloud
+     * @return
+     */
+    virtual bool
+    SeekToFirstPoint() = 0;
 
     /**
      * Read or compute a bounding box for data
@@ -37,7 +46,7 @@ public:
     GetNextPoint() = 0;
 
     virtual
-    ~PointcloudReader() {};
+    ~PointcloudProvider() {};
 
 private:
     const std::string filename_;

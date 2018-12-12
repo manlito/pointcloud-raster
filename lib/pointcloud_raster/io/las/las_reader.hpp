@@ -5,14 +5,14 @@
 #include <memory>
 #include <pointcloud_raster/core/point.hpp>
 #include <pointcloud_raster/core/bounding_box.hpp>
-#include <pointcloud_raster/io/pointcloud_reader.hpp>
+#include <pointcloud_raster/io/pointcloud_provider.hpp>
 
 namespace pointcloud_raster::io
 {
 
 struct LASWrapper;
 
-class LASReader : public PointcloudReader
+class LASReader : public PointcloudProvider
 {
 public:
     LASReader(const std::string filename);
@@ -23,6 +23,13 @@ public:
      */
     virtual bool
     Open();
+
+    /**
+     * Move
+     * @return True is file could be opened
+     */
+    virtual bool
+    SeekToFirstPoint();
 
     /**
      * Read bounding box data from LAS header
