@@ -25,18 +25,18 @@ public:
     Open();
 
     /**
-     * Move
+     * Move to first point
      * @return True is file could be opened
      */
     virtual bool
     SeekToFirstPoint();
 
     /**
-     * Read bounding box data from LAS header
+     * Compute bounding box data from LAS header
      * @return BoundingBox<double> Rounded 3D bounding box
      */
-    virtual BoundingBox3D<double>
-    GetBoundingBox() const;
+    virtual bool
+    ComputeBoundingBox();
 
     /**
      * Reads a point from las file
@@ -49,7 +49,7 @@ public:
 
 private:
     const std::string filename_;
-    std::unique_ptr<LASWrapper> las_wrapper_;
+    std::unique_ptr<LASWrapper> lasWrapper_;
 
 };
 

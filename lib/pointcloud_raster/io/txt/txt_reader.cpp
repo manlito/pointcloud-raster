@@ -12,14 +12,26 @@ TXTReader::TXTReader(const std::string filename, int skipLines)
 bool
 TXTReader::Open()
 {
-    return false;
+    inputStream_.open(filename_);
+    return inputStream_.is_open();
 }
 
-BoundingBox3D<double>
-TXTReader::GetBoundingBox() const
+bool
+TXTReader::SeekToFirstPoint()
 {
-    BoundingBox3D<double> boundingBox3D;
-    return boundingBox3D;
+    inputStream_.clear();
+    inputStream_.seekg(0, std::ios::beg);
+    return inputStream_.good();
+}
+
+bool
+TXTReader::ComputeBoundingBox()
+{
+    if (SeekToFirstPoint())
+    {
+
+    }
+    return SeekToFirstPoint();
 }
 
 std::optional<Point>

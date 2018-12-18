@@ -13,7 +13,6 @@ class PointcloudProvider
 {
 public:
     PointcloudProvider() {}
-    PointcloudProvider(const std::string filename) : filename_(filename) {}
 
     /**
      * Open file handle and try to create a reader
@@ -26,17 +25,24 @@ public:
      * Some transformations require recomputation of bounding box. For this,
      * we may want to read again all points. Calling this method should cause
      * GetNextPoint to return to the first point of the pointcloud
-     * @return
+     * @return True is operation succeed
      */
     virtual bool
     SeekToFirstPoint() = 0;
 
     /**
-     * Read or compute a bounding box for data
+     * Compute a bounding box for data. The reason it is not `const` is
+     * because some providers may need to alter its state to compute it
+     */
+    virtual bool
+    ComputeBoundingBox() = 0;
+
+    /**
+     * Read bounding box for data.
      * @return BoundingBox<double> Rounded 3D bounding box
      */
     virtual BoundingBox3D<double>
-    GetBoundingBox() const = 0;
+    GetBoundingBox() const { return boundingBox_; };
 
     /**
      * Reads a point from file
@@ -48,9 +54,8 @@ public:
     virtual
     ~PointcloudProvider() {};
 
-private:
-    const std::string filename_;
-
+protected:
+    BoundingBox3D<double> boundingBox_;
 };
 
 }

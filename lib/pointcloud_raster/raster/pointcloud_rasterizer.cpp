@@ -59,6 +59,9 @@ PointcloudRasterizer::Rasterize()
         if (!inputProvider->Open())
             return false;
 
+        // Compute explicitly bounding box (e.g. parse header in LAS)
+        inputProvider->ComputeBoundingBox();
+
         // Compute a bounding box and assign a rotation transform for each output config
         for (auto &raster : rasters)
         {

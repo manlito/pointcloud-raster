@@ -7,7 +7,7 @@ main(int argc, char *argv[])
 {
     if (argc != 3)
     {
-        std::cout << "Usage: ./pointcloud_raster_app pointcloud.las output_image_prefix" << std::endl;
+        std::cout << "Usage: ./pointcloud_raster_app pointcloud.las output_dir" << std::endl;
         return EXIT_FAILURE;
     }
     const std::string pointcloudFile(argv[1]);

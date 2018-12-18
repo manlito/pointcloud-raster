@@ -18,13 +18,13 @@ LASReader::LASReader(const std::string filename) : filename_(filename)
 bool
 LASReader::Open()
 {
-    las_wrapper_ = std::make_unique<LASWrapper>();
-    las_wrapper_->input_stream.open(filename_, std::ios::in | std::ios::binary);
-    if (las_wrapper_->input_stream.is_open())
+    lasWrapper_ = std::make_unique<LASWrapper>();
+    lasWrapper_->input_stream.open(filename_, std::ios::in | std::ios::binary);
+    if (lasWrapper_->input_stream.is_open())
     {
         liblas::ReaderFactory reader_factory;
-        las_wrapper_->las_reader =
-            std::make_unique<liblas::Reader>(reader_factory.CreateWithStream(las_wrapper_->input_stream));
+        lasWrapper_->las_reader =
+            std::make_unique<liblas::Reader>(reader_factory.CreateWithStream(lasWrapper_->input_stream));
         return true;
     }
     return false;
@@ -33,34 +33,33 @@ LASReader::Open()
 bool
 LASReader::SeekToFirstPoint()
 {
-    return las_wrapper_->las_reader->Seek(0);
+    return lasWrapper_->las_reader->Seek(0);
 }
 
-BoundingBox3D<double>
-LASReader::GetBoundingBox() const
+bool
+LASReader::ComputeBoundingBox()
 {
-    const auto &headers =las_wrapper_->las_reader->GetHeader();
-    BoundingBox3D<double> boundingBox3D;
-    boundingBox3D.x = std::floor(headers.GetMinX());
-    boundingBox3D.y = std::floor(headers.GetMinY());
-    boundingBox3D.z = std::floor(headers.GetMinZ());
-    boundingBox3D.width = std::ceil(headers.GetMaxX()) - boundingBox3D.x;
-    boundingBox3D.height = std::ceil(headers.GetMaxY()) - boundingBox3D.y;
-    boundingBox3D.depth = std::ceil(headers.GetMaxZ()) - boundingBox3D.z;
-    return boundingBox3D;
+    const auto &headers = lasWrapper_->las_reader->GetHeader();
+    boundingBox_.x = std::floor(headers.GetMinX());
+    boundingBox_.y = std::floor(headers.GetMinY());
+    boundingBox_.z = std::floor(headers.GetMinZ());
+    boundingBox_.width = std::ceil(headers.GetMaxX()) - boundingBox_.x;
+    boundingBox_.height = std::ceil(headers.GetMaxY()) - boundingBox_.y;
+    boundingBox_.depth = std::ceil(headers.GetMaxZ()) - boundingBox_.z;
+    return true;
 }
 
 std::optional<Point>
 LASReader::GetNextPoint()
 {
-    if (!las_wrapper_)
+    if (!lasWrapper_)
     {
         return std::nullopt;
     }
 
-    if (las_wrapper_->las_reader->ReadNextPoint())
+    if (lasWrapper_->las_reader->ReadNextPoint())
     {
-        const auto &point = las_wrapper_->las_reader->GetPoint();
+        const auto &point = lasWrapper_->las_reader->GetPoint();
         const auto &color = point.GetColor();
 
         return Point(
