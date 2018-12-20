@@ -18,13 +18,10 @@ public:
     struct RasterOptions
     {
         ImageSize rasterSize{1024, 1024};
-        ImageFormat format{ImageFormat::JPG};
         ViewPointPreset rasterViewPointPreset{ViewPointPreset::TOP};
         Color backgroundColor{0, 0, 0, 0};
         RasterOptions() {}
     };
-
-    enum class InputType {LAS, TXT};
 
     PointcloudRasterizer() {}
 

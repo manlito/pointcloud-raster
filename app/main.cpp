@@ -1,17 +1,22 @@
 #include <iostream>
 #include <pointcloud_raster/raster/pointcloud_rasterizer.hpp>
 #include <pointcloud_raster/io/las/las_reader.hpp>
+#include <pointcloud_raster/io/txt/txt_reader.hpp>
 
 int
 main(int argc, char *argv[])
 {
-    if (argc != 3)
+    if (argc != 4)
     {
-        std::cout << "Usage: ./pointcloud_raster_app pointcloud.las output_dir" << std::endl;
+        std::cout << "Usage: ./pointcloud_raster_app input_cloud format output_dir" << std::endl;
+        std::cout << " - input cloud is the path to the file to raster" << std::endl;
+        std::cout << " - format can be TXT or LAS" << std::endl;
+        std::cout << " - output dir is an exist folder where to save results" << std::endl;
         return EXIT_FAILURE;
     }
     const std::string pointcloudFile(argv[1]);
-    std::cout << "Rendering pointcloud" << pointcloudFile << std::endl;
+    const std::string pointcloudFormat(argv[2]);
+    std::cout << "Rendering pointcloud" << pointcloudFile << " in format " << pointcloudFormat << std::endl;
 
     const std::vector<std::pair<std::string, pointcloud_raster::ViewPointPreset>> viewPresets {
         {"top", pointcloud_raster::ViewPointPreset::TOP},
@@ -27,7 +32,10 @@ main(int argc, char *argv[])
         rasterOptions.rasterViewPointPreset = viewProfile;
         rasterizer.AddOutputRaster(rasterOptions);
     }
-    rasterizer.AddInputProvider(new pointcloud_raster::io::LASReader(pointcloudFile));
+    if (pointcloudFormat == "LAS")
+        rasterizer.AddInputProvider(new pointcloud_raster::io::LASReader(pointcloudFile));
+    else
+        rasterizer.AddInputProvider(new pointcloud_raster::io::TXTReader(pointcloudFile));
     if (!rasterizer.Rasterize())
     {
         std::cerr << "Rasterization failed" << std::endl;
@@ -48,7 +56,7 @@ main(int argc, char *argv[])
         auto rasterImageIterator = rasterizer.GetRasterImages().begin();
         for (const auto &[suffix, viewProfile] : viewPresets)
         {
-            const std::string pngFile = std::string(argv[2]) + "_" + suffix + ".png";
+            const std::string pngFile = std::string(argv[3]) + "_" + suffix + ".png";
             std::cout << "Saving image " << pngFile << std::endl;
             if (!rasterImageIterator->SaveAsPNG(pngFile))
                 std::cerr << "Error saving image" << std::endl;

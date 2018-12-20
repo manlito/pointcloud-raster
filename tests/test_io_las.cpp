@@ -4,7 +4,7 @@
 
 using namespace pointcloud_raster;
 
-TEST(IO, ReadLAS)
+TEST(IOLAS, Read)
 {
     io::LASReader lasReader(LAS_FILE_SIMPLE_INPUT);
     std::vector<Point> points;
