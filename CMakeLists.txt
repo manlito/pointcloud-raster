@@ -29,10 +29,3 @@ if (POINTCLOUD_RASTER_BUILD_TESTS)
     add_subdirectory(tests)
 endif()
 
-# Install and create cmake files
-#install(
-#  EXPORT POINTCLOUD_RASTER_EXPORTS
-#  NAMESPACE PointcloudRaster
-#  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/PointcloudRasterUtils
-#  FILE PointcloudRasterTargets.cmake
-#)
