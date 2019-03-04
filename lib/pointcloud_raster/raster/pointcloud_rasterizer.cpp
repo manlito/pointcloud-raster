@@ -172,9 +172,10 @@ PointcloudRasterizer::Rasterize()
                 // When render, give priority based on distance to camera
                 int x = std::max(0, std::min(raster.rasterImage->Width() - 1,
                                              static_cast<int>((transformedX - raster.boundingBox.x)*raster.scale)));
-                int y = raster.rasterImage->Height() -
-                    std::max(0, std::min(raster.rasterImage->Height() - 1,
-                                         static_cast<int>((transformedY - raster.boundingBox.y)*raster.scale)));
+                int y = std::max(0, std::min(raster.rasterImage->Height() - 1,
+                                             raster.rasterImage->Height()
+                                                 - static_cast<int>((transformedY - raster.boundingBox.y)
+                                                     *raster.scale)));
 
                 // Draw if depth will result smaller
                 if (auto currentZ = raster.depthImage.Get(x, y);
