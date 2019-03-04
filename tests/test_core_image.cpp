@@ -1,4 +1,5 @@
 #include <iostream>
+#include <optional>
 #include <pointcloud_raster/core/image.hpp>
 #include <gtest/gtest.h>
 #include <png.h>

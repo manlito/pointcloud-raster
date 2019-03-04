@@ -11,7 +11,7 @@ main(int argc, char *argv[])
         std::cout << "Usage: ./pointcloud_raster_app input_cloud format output_dir" << std::endl;
         std::cout << " - input cloud is the path to the file to raster" << std::endl;
         std::cout << " - format can be TXT or LAS" << std::endl;
-        std::cout << " - output dir is an exist folder where to save results" << std::endl;
+        std::cout << " - output prefix for results. Parent folder should exist" << std::endl;
         return EXIT_FAILURE;
     }
     const std::string pointcloudFile(argv[1]);
@@ -30,6 +30,7 @@ main(int argc, char *argv[])
     {
         pointcloud_raster::raster::PointcloudRasterizer::RasterOptions rasterOptions;
         rasterOptions.rasterViewPointPreset = viewProfile;
+        rasterOptions.rasterSize = {1280, 1280};
         rasterizer.AddOutputRaster(rasterOptions);
     }
     if (pointcloudFormat == "LAS")

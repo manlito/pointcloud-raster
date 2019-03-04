@@ -20,7 +20,7 @@ target_compile_features(pointcloud_raster
 
 if (POINTCLOUD_RASTER_PNG_SUPPORT)
     target_compile_definitions(pointcloud_raster
-        PRIVATE
+        PUBLIC
             POINTCLOUD_RASTER_PNG_SUPPORT
     )
     target_link_libraries(pointcloud_raster

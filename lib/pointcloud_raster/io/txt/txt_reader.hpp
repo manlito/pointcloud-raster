@@ -7,6 +7,7 @@
 #include <functional>
 #include <iterator>
 #include <sstream>
+#include <vector>
 #include <pointcloud_raster/core/point.hpp>
 #include <pointcloud_raster/core/bounding_box.hpp>
 #include <pointcloud_raster/io/pointcloud_provider.hpp>

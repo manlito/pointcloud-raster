@@ -26,7 +26,7 @@ math::RotationTransform::SetFromViewPoint(ViewPointPreset viewPointPreset)
                                    0, 1, 0,
                                    -std::sin(radians), 0, std::cos(radians)});
         }
-        else if (rotationAxis == RotationAxis::Z)
+        else // (rotationAxis == RotationAxis::Z)
         {
             return RotationMatrix({std::cos(radians), -std::sin(radians), 0,
                                    std::sin(radians), std::cos(radians), 0,

@@ -1,7 +1,7 @@
 #include <pointcloud_raster/core/image.hpp>
 #ifdef POINTCLOUD_RASTER_PNG_SUPPORT
 #include <fstream>
-#include <libpng/png.h>
+#include <png.h>
 #endif
 
 namespace pointcloud_raster
