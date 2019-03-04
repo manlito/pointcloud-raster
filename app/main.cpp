@@ -6,12 +6,14 @@
 int
 main(int argc, char *argv[])
 {
-    if (argc != 4)
+    if (argc < 4)
     {
         std::cout << "Usage: ./pointcloud_raster_app input_cloud format output_dir" << std::endl;
         std::cout << " - input cloud is the path to the file to raster" << std::endl;
         std::cout << " - format can be TXT or LAS" << std::endl;
         std::cout << " - output prefix for results. Parent folder should exist" << std::endl;
+        std::cout << " - (optional) max width for raster" << std::endl;
+        std::cout << " Example: ./pointcloud_raster_app input.las LAS output/screenshot 2048 " << std::endl;
         return EXIT_FAILURE;
     }
     const std::string pointcloudFile(argv[1]);
@@ -25,12 +27,14 @@ main(int argc, char *argv[])
         {"perspective", pointcloud_raster::ViewPointPreset::FRONT_ISOMETRIC}
     };
 
+    const int rasterSize = argc >= 5 ? std::stoi(argv[4]) : 1024;
+
     pointcloud_raster::raster::PointcloudRasterizer rasterizer;
     for (const auto &[suffix, viewProfile] : viewPresets)
     {
         pointcloud_raster::raster::PointcloudRasterizer::RasterOptions rasterOptions;
         rasterOptions.rasterViewPointPreset = viewProfile;
-        rasterOptions.rasterSize = {1280, 1280};
+        rasterOptions.rasterSize = {rasterSize, rasterSize};
         rasterizer.AddOutputRaster(rasterOptions);
     }
     if (pointcloudFormat == "LAS")
