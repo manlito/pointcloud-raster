@@ -3,10 +3,18 @@ include(CMakeFindDependencyMacro)
 
 list(APPEND CMAKE_MODULE_PATH ${PointcloudRaster_CMAKE_DIR})
 
+if (POINTCLOUD_RASTER_PNG_SUPPORT)
+    find_dependency(PNG REQUIRED)
+endif ()
+
+if (POINTCLOUD_RASTER_LAS_SUPPORT)
+    find_dependency(libLAS 1.8 REQUIRED)
+endif ()
+
 list(REMOVE_AT CMAKE_MODULE_PATH -1)
 
-if(NOT TARGET PointcloudRaster::PointcloudRaster)
+if (NOT TARGET PointcloudRaster::PointcloudRaster)
     include("${PointcloudRaster_CMAKE_DIR}/PointcloudRasterTargets.cmake")
-endif()
+endif ()
 
 set(PointcloudRaster_LIBRARIES PointcloudRaster::PointcloudRaster)
