@@ -27,10 +27,6 @@ if (POINTCLOUD_RASTER_PNG_SUPPORT)
         PUBLIC
             PNG::PNG
     )
-    target_include_directories(pointcloud_raster
-        PRIVATE
-            ${PNG_INCLUDE_DIRS}
-    )
 endif()
 
 if (POINTCLOUD_RASTER_LAS_SUPPORT)

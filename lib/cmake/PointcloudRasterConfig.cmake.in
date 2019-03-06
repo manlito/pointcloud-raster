@@ -3,11 +3,10 @@ include(CMakeFindDependencyMacro)
 
 list(APPEND CMAKE_MODULE_PATH ${PointcloudRaster_CMAKE_DIR})
 
-if (POINTCLOUD_RASTER_PNG_SUPPORT)
+if (@POINTCLOUD_RASTER_PNG_SUPPORT@)
     find_dependency(PNG REQUIRED)
 endif ()
-
-if (POINTCLOUD_RASTER_LAS_SUPPORT)
+if (@POINTCLOUD_RASTER_LAS_SUPPORT@)
     find_dependency(libLAS 1.8 REQUIRED)
 endif ()
 
