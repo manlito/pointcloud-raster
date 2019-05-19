@@ -17,12 +17,14 @@ target_link_libraries(TestMath PRIVATE ${LIB_LINK_LIBRARIES})
 target_compile_features(TestMath PRIVATE cxx_std_11)
 gtest_discover_tests(TestMath)
 
-# LAS Read
-add_executable(TestReadLAS test_io_las.cpp)
-target_link_libraries(TestReadLAS PRIVATE ${LIB_LINK_LIBRARIES})
-target_compile_definitions(TestReadLAS PRIVATE ${LIB_DEFINITIONS})
-target_compile_features(TestReadLAS PRIVATE cxx_std_17)
-gtest_discover_tests(TestReadLAS)
+if (POINTCLOUD_RASTER_LAS_SUPPORT)
+    # LAS Read
+    add_executable(TestReadLAS test_io_las.cpp)
+    target_link_libraries(TestReadLAS PRIVATE ${LIB_LINK_LIBRARIES})
+    target_compile_definitions(TestReadLAS PRIVATE ${LIB_DEFINITIONS})
+    target_compile_features(TestReadLAS PRIVATE cxx_std_17)
+    gtest_discover_tests(TestReadLAS)
+endif ()
 
 # TXT Read
 add_executable(TestReadTXT test_io_txt.cpp)

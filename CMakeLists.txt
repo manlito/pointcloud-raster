@@ -20,12 +20,14 @@ if (POINTCLOUD_RASTER_PNG_SUPPORT)
 endif()
 
 add_subdirectory(lib)
-add_subdirectory(app)
+if (POINTCLOUD_RASTER_BUILD_APP AND POINTCLOUD_RASTER_LAS_SUPPORT AND POINTCLOUD_RASTER_PNG_SUPPORT)
+    add_subdirectory(app)
+endif ()
 
 # Testing
 if (POINTCLOUD_RASTER_BUILD_TESTS)
     enable_testing()
     find_package(GTest REQUIRED)
     add_subdirectory(tests)
-endif()
+endif ()
 
