@@ -62,7 +62,7 @@ cmake -D POINTCLOUD_RASTER_BUILD_APP=Off -D POINTCLOUD_RASTER_LAS_SUPPORT=Off ..
 
 ### Example app ###
 
-By default an example application is built that only accepts 3 parameters:
+We ship an app with the following supported parameters:
 
 ```bash
 pointcloud_raster <cloud.las|cloud.txt> <LAS|TXT> <SIDE|FRONT|TOP|BOTTOM|PERSPECTIVE|ALL> <output_prefix> <max_size>
