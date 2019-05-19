@@ -18,6 +18,17 @@ namespace pointcloud_raster::io
 class TXTReader : public PointcloudProvider
 {
 public:
+    /**
+     * Builds a pointcloud from a ASCII file. If your input is not in format
+     * `XYZRGB`, you will need to provide your own line parser. Note however
+     * you are free to use custom separator character. If you need to build
+     * your own parser, please see default std::function.
+     *
+     * @param filename Path to pointcloud in ASCII format
+     * @param skipLines If you need to skip a header or not
+     * @param delimiter Character used to split columns
+     * @param readLineLambda std::function which parses every single line
+     */
     TXTReader(const std::string filename,
               int skipLines = 0,
               char delimiter = ' ',
@@ -49,7 +60,7 @@ public:
     });
 
     /**
-     * Open file handle and try to create LAS object
+     * Open file handle and try to create TXT object
      * @return True is file could be opened
      */
     bool
@@ -63,14 +74,14 @@ public:
     SeekToFirstPoint();
 
     /**
-     * Compute bounding box data from LAS header
+     * Compute bounding box data, which is done by reading all points in TXT file
      * @return BoundingBox<double> Rounded 3D bounding box
      */
     virtual bool
     ComputeBoundingBox();
 
     /**
-     * Reads a point from las file
+     * Reads a point from TXT file
      * @return Read point or `nullopt` if end of file has been reached
      */
     std::optional<Point>
