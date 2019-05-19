@@ -95,3 +95,7 @@ target_link_libraries(your_program PointcloudRaster::PointcloudRaster)
 
 ```
  See [Examples repo](https://github.com/manlito/pointcloud-raster-examples/blob/master/examples/rasterize-txt/CMakeLists.txt) for more.
+
+ ## Using in production ##
+
+I can tell I have run this tool on pointcloud files with more than 500 million points without any problems. Indeed, I have tested more than 50 different pointclouds, and works as expected. No benchmarks, but certainly it is pretty fast. You should try it. Building is easy, specially with [Dockerfile](https://github.com/manlito/pointcloud-raster-examples/blob/master/build/linux/Dockerfile)
