@@ -4,27 +4,24 @@ Provides a simple tool wit no dependencies to generate a raster from a pointclou
 
 ## Background ##
 
-It is possible to create raster from PNGs using things like cloudcompare. However, tools that do raster usually have many requirements and possibly license constraints. I wanted something simple for my QA needs, where I simply pass the cloud, takes the photos for me, and works in a headless environment. 
+It is possible to create raster from PNGs using things like awesome cloudcompare. However, tools that do raster usually have many requirements to build and possibly license constraints. I wanted something simple for my QA needs, where I simply pass the cloud, takes the photos for me, and works in a headless environment.
 
 In addition, I wanted to be able to do it on any device (IOS, android).
 
-So, if you depend on high accuracy renders for your customers, this is not for. But if you only need to create screenshots/rasters which are for previews, this is for you.
+So, if you depend on high accuracy renders for your customers, this is not for you. But if you only need to create screenshots/rasters which are for previews or quick screenshots, enjoy.
 
-## Roadmap ##
+## Features ##
 
-### Under development ###
+- Supports TXT and LAS files
+- Can output to PNG file (requires libpng)
+- Supports rasters from arbitrary view points (cameras)
+- Files are rasterized on fly, meaning low memory usage. However, raster is hold in memory, which implies max size depends on your system.
 
-- [ ] Basic read from TXT or LAS files
-- [ ] Raster of a photo to output JPG file
-- [ ] Rastering from fixed view points (top, left, right, bottom)
+## Todos ##
 
-### In the radar, but not even planned yet ###
-
-- [ ] Support other input
 - [ ] Floating point outputs (e.g., adding elevation map)
 - [ ] Use raster output to geolocate it (TIFF output). If added, will be optional because of GDAL.
-- [ ] Applying arbitrary transform to camera
-- [ ] Low memory footprint with tiled read and write
+- [ ] Low memory footprint with tiled write of output rasters
 
 ## How to build ##
 
@@ -45,6 +42,22 @@ To disable example app and/or test, use these options. For instance:
 cmake -D POINTCLOUD_RASTER_BUILD_APP=Off  -D POINTCLOUD_RASTER_BUILD_TESTS=Off ../pointcloud-raster
 ```
 
+### Without PNG ###
+
+Such use case can be cool if you only need to return an in memory raster and have another way to display.
+
+```bash
+cmake -D POINTCLOUD_RASTER_BUILD_APP=Off -D POINTCLOUD_RASTER_PNG_SUPPORT=Off ../pointcloud-raster
+```
+
+### Without LAS ###
+
+If your use case needs a different way of reading, you should create your own PointcloudProvider. Please see [TXTReader](lib/pointcloud_raster/io/txt) to see how. When, you should build as follows:
+
+```bash
+cmake -D POINTCLOUD_RASTER_BUILD_APP=Off -D POINTCLOUD_RASTER_LAS_SUPPORT=Off ../pointcloud-raster
+```
+
 ## How to use ##
 
 ### Example app ###
@@ -52,16 +65,24 @@ cmake -D POINTCLOUD_RASTER_BUILD_APP=Off  -D POINTCLOUD_RASTER_BUILD_TESTS=Off .
 By default an example application is built that only accepts 3 parameters:
 
 ```bash
-pointcloud_raster <cloud> <top|bottom|right|left> <max_size>
+pointcloud_raster <cloud.las|cloud.txt> <LAS|TXT> <SIDE|FRONT|TOP|BOTTOM|PERSPECTIVE|ALL> <output_prefix> <max_size>
 ```
 
 For instance:
 
 ```bash
-pointcloud_raster cloud.las top 1024
+pointcloud_raster cloud.las LAS TOP preview 1024
 ```
 
-Creates a raster from top view, with a max size of 1024.
+Creates a single file in working dir named `preview_top.png`. But special case:
+
+```bash
+pointcloud_raster cloud.las LAS ALL preview 1024
+```
+
+Creates 4 files in working dir.
+
+>Note: Output dir is expected to exist.
 
 ### Library usage ###
 
@@ -73,3 +94,4 @@ add_executable(your_program your_code.cpp)
 target_link_libraries(your_program PointcloudRaster::PointcloudRaster)
 
 ```
+ See [Examples repo](https://github.com/manlito/pointcloud-raster-examples/blob/master/examples/rasterize-txt/CMakeLists.txt) for more.
