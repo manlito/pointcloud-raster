@@ -182,7 +182,19 @@ PointcloudRasterizer::Rasterize()
                     transformedZ > currentZ)
                 {
                     raster.depthImage.Set(x, y, static_cast<float>(transformedZ));
-                    raster.rasterImage->SetColor(x, y, nextPoint->color);
+                    // Normalize color to range
+                    Color rangeNormalizedColor(
+                        std::max(0,
+                                 std::min(255,
+                                          (int) (255.0*((double) nextPoint->color.red)/((double) maxPointColor_)))),
+                        std::max(0,
+                                 std::min(255,
+                                          (int) (255.0*((double) nextPoint->color.green)/((double) maxPointColor_)))),
+                        std::max(0,
+                                 std::min(255,
+                                          (int) (255.0*((double) nextPoint->color.blue)/((double) maxPointColor_))))
+                    );
+                    raster.rasterImage->SetColor(x, y, rangeNormalizedColor);
                 }
             }
         }

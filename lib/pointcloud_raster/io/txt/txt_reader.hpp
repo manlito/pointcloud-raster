@@ -50,9 +50,9 @@ public:
                               std::stod(tokens[0]),
                               std::stod(tokens[1]),
                               std::stod(tokens[2]),
-                              static_cast<unsigned char>(std::stoi(tokens[3])),
-                              static_cast<unsigned char>(std::stoi(tokens[4])),
-                              static_cast<unsigned char>(std::stoi(tokens[5]))
+                              static_cast<unsigned int>(std::stoi(tokens[3])),
+                              static_cast<unsigned int>(std::stoi(tokens[4])),
+                              static_cast<unsigned int>(std::stoi(tokens[5]))
                               );
                       }
                       else

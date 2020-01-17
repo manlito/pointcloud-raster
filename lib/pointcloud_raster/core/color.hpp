@@ -5,17 +5,17 @@ namespace pointcloud_raster
 
 struct Color
 {
-    unsigned char red{0};
-    unsigned char green{0};
-    unsigned char blue{0};
-    unsigned char alpha{0};
+    unsigned int red{0};
+    unsigned int green{0};
+    unsigned int blue{0};
+    unsigned int alpha{0};
 
     Color() {}
 
-    explicit Color(unsigned char red, unsigned char green, unsigned char blue)
+    explicit Color(unsigned int red, unsigned int green, unsigned int blue)
         : red(red), green(green), blue(blue), alpha(255) {}
 
-    explicit Color(unsigned char red, unsigned char green, unsigned char blue, unsigned char alpha)
+    explicit Color(unsigned int red, unsigned int green, unsigned int blue, unsigned int alpha)
         : red(red), green(green), blue(blue), alpha(alpha) {}
 
     bool

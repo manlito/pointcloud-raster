@@ -66,9 +66,9 @@ LASReader::GetNextPoint()
            point.GetX(),
            point.GetY(),
            point.GetZ(),
-           static_cast<unsigned char>(std::min((unsigned int)255, (unsigned int)color.GetRed())),
-           static_cast<unsigned char>(std::min((unsigned int)255, (unsigned int)color.GetGreen())),
-           static_cast<unsigned char>(std::min((unsigned int)255, (unsigned int)color.GetBlue()))
+           static_cast<unsigned int>(color.GetRed()),
+           static_cast<unsigned int>(color.GetGreen()),
+           static_cast<unsigned int>(color.GetBlue())
         );
     }
     else

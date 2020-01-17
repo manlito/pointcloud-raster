@@ -26,6 +26,12 @@ public:
     PointcloudRasterizer() {}
 
     void
+    SetMaxPointColor(const int maxPointColor)
+    {
+        maxPointColor_ = maxPointColor;
+    }
+
+    void
     AddOutputRaster(const RasterOptions &outputOptions)
     {
         outputRasters_.push_back(outputOptions);
@@ -57,6 +63,7 @@ private:
     std::vector<RasterOptions> outputRasters_;
     std::vector<RGBAImage> rasterImages_;
     std::vector<std::unique_ptr<io::PointcloudProvider>> inputProviders_;
+    int maxPointColor_{255};
 };
 
 }

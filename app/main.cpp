@@ -14,6 +14,7 @@ main(int argc, char *argv[])
         std::cout << " - raster viewpoint, can be TOP, SIDE, FRONT, PERSPECTIVE or ALL" << std::endl;
         std::cout << " - output prefix for results. Parent folder should exist" << std::endl;
         std::cout << " - (optional) max width for raster" << std::endl;
+        std::cout << " - (optional) max color value, per channel (default 255)" << std::endl;
         std::cout << " Example: ./pointcloud_raster_app input.las LAS output/screenshot 2048 " << std::endl;
         return EXIT_FAILURE;
     }
@@ -37,8 +38,11 @@ main(int argc, char *argv[])
 
 
     const int rasterSize = argc >= 6 ? std::stoi(argv[5]) : 1024;
+    const int pointcloudMaxColor = argc >= 7 ? std::stoi(argv[6]) : 255;
+    std::cout << "Using pointcloud max color " << pointcloudMaxColor << std::endl;
 
     pointcloud_raster::raster::PointcloudRasterizer rasterizer;
+    rasterizer.SetMaxPointColor(pointcloudMaxColor);
     for (const auto &[suffix, viewProfile] : viewPresets)
     {
         pointcloud_raster::raster::PointcloudRasterizer::RasterOptions rasterOptions;
