@@ -24,8 +24,6 @@ main(int argc, char *argv[])
     std::string rasterViewPreset(argv[3]);
     std::transform(rasterViewPreset.begin(), rasterViewPreset.end(), rasterViewPreset.begin(), ::toupper);
 
-    std::cout << "Rasterizing " << pointcloudFile << " format " << pointcloudFormat << " using viewpoint " << rasterViewPreset << std::endl;
-
     std::vector<std::pair<std::string, pointcloud_raster::ViewPointPreset>> viewPresets;
     if (rasterViewPreset == "TOP" || rasterViewPreset == "ALL")
         viewPresets.push_back({"top", pointcloud_raster::ViewPointPreset::TOP});
@@ -36,10 +34,11 @@ main(int argc, char *argv[])
     if (rasterViewPreset == "PERSPECTIVE" || rasterViewPreset == "ALL")
         viewPresets.push_back({"perspective", pointcloud_raster::ViewPointPreset::FRONT_ISOMETRIC});
 
-
     const int rasterSize = argc >= 6 ? std::stoi(argv[5]) : 1024;
     const int pointcloudMaxColor = argc >= 7 ? std::stoi(argv[6]) : 255;
-    std::cout << "Using pointcloud max color " << pointcloudMaxColor << std::endl;
+
+    std::cout << "Rasterizing " << pointcloudFile << " format " << rasterViewPreset << " size " << rasterSize
+              << " pointcloud max color " << pointcloudMaxColor << std::endl;
 
     pointcloud_raster::raster::PointcloudRasterizer rasterizer;
     rasterizer.SetMaxPointColor(pointcloudMaxColor);
