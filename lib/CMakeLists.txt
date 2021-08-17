@@ -32,6 +32,8 @@ endif()
 if (POINTCLOUD_RASTER_LAS_SUPPORT)
     find_package(libLAS 1.8 REQUIRED)
     message(STATUS "LibLAS build enabled: libLAS version ${libLAS_VERSION} ${libLAS_LIBRARIES}")
+    # LibLAS not exporting correctly targets
+    find_package(Boost COMPONENTS filesystem iostreams system thread program_options)
     target_sources(pointcloud_raster
         PRIVATE
             ${CMAKE_CURRENT_SOURCE_DIR}/pointcloud_raster/io/las/las_reader.cpp
