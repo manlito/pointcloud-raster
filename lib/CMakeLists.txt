@@ -10,6 +10,7 @@ target_sources(pointcloud_raster
         ${CMAKE_CURRENT_SOURCE_DIR}/pointcloud_raster/raster/pointcloud_rasterizer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/pointcloud_raster/core/image.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/pointcloud_raster/math/transform.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/pointcloud_raster/io/pointcloud_provider.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/pointcloud_raster/io/txt/txt_reader.cpp
     )
 
@@ -29,6 +30,25 @@ if (POINTCLOUD_RASTER_PNG_SUPPORT)
     )
 endif()
 
+if (POINTCLOUD_RASTER_PLY_SUPPORT)
+    option(RPLYCPP_BUILD_SAMPLES OFF)
+    option(RPLYCPP_BUILD_TESTS OFF)
+    add_subdirectory(third_party/rplycpp)
+    message(STATUS "RPLYCPP build enabled")
+    target_sources(pointcloud_raster
+        PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/pointcloud_raster/io/ply/ply_reader.cpp
+    )
+    target_include_directories(pointcloud_raster
+        PRIVATE
+            ${libLAS_INCLUDE_DIRS}
+    )
+    target_link_libraries(pointcloud_raster
+        PRIVATE
+            RPLYCPP::RPLYCPP
+    )
+endif()
+
 if (POINTCLOUD_RASTER_LAS_SUPPORT)
     find_package(libLAS 1.8 REQUIRED)
     message(STATUS "LibLAS build enabled: libLAS version ${libLAS_VERSION} ${libLAS_LIBRARIES}")
@@ -44,7 +64,7 @@ if (POINTCLOUD_RASTER_LAS_SUPPORT)
     )
     target_include_directories(pointcloud_raster
         PRIVATE
-            ${libLAS_INCLUDE_DIRS}
+            third_party/rplycpp/src
     )
 endif ()
 

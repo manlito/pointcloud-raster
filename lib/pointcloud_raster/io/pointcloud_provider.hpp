@@ -35,7 +35,7 @@ public:
      * because some providers may need to alter its state to compute it
      */
     virtual bool
-    ComputeBoundingBox() = 0;
+    ComputeBoundingBox();
 
     /**
      * Read bounding box for data.

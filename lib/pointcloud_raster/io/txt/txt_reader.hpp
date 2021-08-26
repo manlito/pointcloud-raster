@@ -74,13 +74,6 @@ public:
     SeekToFirstPoint();
 
     /**
-     * Compute bounding box data, which is done by reading all points in TXT file
-     * @return BoundingBox<double> Rounded 3D bounding box
-     */
-    virtual bool
-    ComputeBoundingBox();
-
-    /**
      * Reads a point from TXT file
      * @return Read point or `nullopt` if end of file has been reached
      */

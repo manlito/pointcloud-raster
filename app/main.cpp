@@ -1,7 +1,10 @@
 #include <iostream>
 #include <pointcloud_raster/raster/pointcloud_rasterizer.hpp>
+#ifdef WITH_LAS
 #include <pointcloud_raster/io/las/las_reader.hpp>
+#endif
 #include <pointcloud_raster/io/txt/txt_reader.hpp>
+#include <pointcloud_raster/io/ply/ply_reader.hpp>
 
 int
 main(int argc, char *argv[])
@@ -10,12 +13,16 @@ main(int argc, char *argv[])
     {
         std::cout << "Usage: ./pointcloud_raster_app input_cloud format output_dir" << std::endl;
         std::cout << " - input cloud is the path to the file to raster" << std::endl;
-        std::cout << " - format can be TXT or LAS" << std::endl;
+#ifdef WITH_LAS
+        std::cout << " - format can be TXT, PLY or LAS" << std::endl;
+#else
+        std::cout << " - format can be TXT or PLY" << std::endl;
+#endif
         std::cout << " - raster viewpoint, can be TOP, SIDE, FRONT, PERSPECTIVE or ALL" << std::endl;
         std::cout << " - output prefix for results. Parent folder should exist" << std::endl;
         std::cout << " - (optional) max width for raster" << std::endl;
         std::cout << " - (optional) max color value, per channel (default 255)" << std::endl;
-        std::cout << " Example: ./pointcloud_raster_app input.las LAS output/screenshot 2048 " << std::endl;
+        std::cout << " Example: ./pointcloud_raster_app input.las LAS ALL output/screenshot 2048 " << std::endl;
         return EXIT_FAILURE;
     }
     const std::string pointcloudFile(argv[1]);
@@ -50,9 +57,18 @@ main(int argc, char *argv[])
         rasterizer.AddOutputRaster(rasterOptions);
     }
     if (pointcloudFormat == "LAS")
+#ifdef WITH_LAS
         rasterizer.AddInputProvider(new pointcloud_raster::io::LASReader(pointcloudFile));
+#else
+    {
+        std::cerr << "LAS support is not available" << std::endl;
+        return EXIT_FAILURE;
+    }
+#endif
     else if (pointcloudFormat == "TXT")
         rasterizer.AddInputProvider(new pointcloud_raster::io::TXTReader(pointcloudFile));
+    else if (pointcloudFormat == "PLY")
+        rasterizer.AddInputProvider(new pointcloud_raster::io::PLYReader(pointcloudFile));
     else
     {
         std::cerr << "Unknown format " << pointcloudFormat << std::endl;

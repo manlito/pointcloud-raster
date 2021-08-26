@@ -1,10 +1,11 @@
-cmake_minimum_required(VERSION 3.5)
-project(pointcloud_raster VERSION 1.0.0 )
+cmake_minimum_required(VERSION 3.8)
+project(pointcloud_raster VERSION 1.1.0)
 
 # Options
 option(POINTCLOUD_RASTER_BUILD_APP "Build sample app to get images from a pointcloud" ON)
 option(POINTCLOUD_RASTER_BUILD_TESTS "Build tests (requires GoogleTest)" ON)
-option(POINTCLOUD_RASTER_LAS_SUPPORT "Enable build with LibLAS for LAS/LAZ files" ON)
+option(POINTCLOUD_RASTER_LAS_SUPPORT "Enable build with LibLAS for LAS/LAZ files" OFF)
+option(POINTCLOUD_RASTER_PLY_SUPPORT "Enable build with internal PLY reader (only XYZRGB pointclouds)" ON)
 option(POINTCLOUD_RASTER_PNG_SUPPORT "Enable build with libPNG (otherwise, memory only interface will be available)" ON)
 set(POINTCLOUD_RASTER_TEST_OUTPUT "." CACHE STRING "Folder to put test generated files")
 
@@ -20,7 +21,7 @@ if (POINTCLOUD_RASTER_PNG_SUPPORT)
 endif()
 
 add_subdirectory(lib)
-if (POINTCLOUD_RASTER_BUILD_APP AND POINTCLOUD_RASTER_LAS_SUPPORT AND POINTCLOUD_RASTER_PNG_SUPPORT)
+if (POINTCLOUD_RASTER_BUILD_APP AND POINTCLOUD_RASTER_PNG_SUPPORT)
     add_subdirectory(app)
 endif ()
 
