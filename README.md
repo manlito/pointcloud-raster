@@ -12,16 +12,12 @@ So, if you depend on high accuracy renders for your customers, this is not for y
 
 ## Features ##
 
-- Supports TXT and LAS files
+- Full support TXT and LAS files
+- Rudimentary PLY support: Only XYZ and XYZRGB pointclouds
 - Can output to PNG file (requires libpng)
 - Supports rasters from arbitrary view points (cameras)
 - Files are rasterized on fly, meaning low memory usage. However, raster is hold in memory, which implies max size depends on your system.
 
-## Todos ##
-
-- [ ] Floating point outputs (e.g., adding elevation map)
-- [ ] Use raster output to geolocate it (TIFF output). If added, will be optional because of GDAL.
-- [ ] Low memory footprint with tiled write of output rasters
 
 ## How to build ##
 
