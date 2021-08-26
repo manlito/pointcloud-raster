@@ -16,15 +16,21 @@ PLYReader::Open()
     if (reader.Open(filename_))
     {
         auto vertices_handler = [this](const std::vector<double> &vertex) {
-            // This is your app logic, just remember there is an array of double with all row values
-            // Input ply has 9 vertex properties: x y z nx ny nz red green blue
+            // This will work with a limited number of PLY files
+            if (vertex.size() != 3 && vertex.size() != 6)
+                return;
             Point point;
+            // XYZ Pointclouds
             point.x = vertex[0];
             point.y = vertex[1];
             point.z = vertex[2];
-            point.color.red = vertex[3];
-            point.color.green = vertex[4];
-            point.color.blue = vertex[5];
+            // XYZRGB
+            if (vertex.size() == 6)
+            {
+                point.color.red = vertex[3];
+                point.color.green = vertex[4];
+                point.color.blue = vertex[5];
+            }
             points_.emplace_back(point);
         };
         // Register the handlers
