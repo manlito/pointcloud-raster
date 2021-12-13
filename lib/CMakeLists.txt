@@ -1,5 +1,16 @@
 # Main library
 add_library(pointcloud_raster)
+
+if (POINTCLOUD_RASTER_PYTHON_SUPPORT)
+    # Needed for python bindings
+    set_property(
+        TARGET
+            pointcloud_raster
+        PROPERTY
+            POSITION_INDEPENDENT_CODE ON
+    )
+endif()
+
 target_include_directories(pointcloud_raster
     PUBLIC
         $<INSTALL_INTERFACE:.>
